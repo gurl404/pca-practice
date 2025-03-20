@@ -1,0 +1,24 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; 
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+canvas {
+    max-width: 90vw; 
+    max-height: 90vh; 
+    width: 100%; 
+    height: auto; 
+}
+
+h1 {
+    margin: 10px 0;
+    font-size: 24px;
+    text-align: center;
+}

@@ -2,21 +2,21 @@ package main
 
 import (
     "fmt"
+    "net/http"
     "os"
     "gonum.org/v1/gonum/mat"
     "pca-project/src/pca"
 
-    "github.com/joho/godotenv" 
+    "github.com/joho/godotenv"
 )
 
 func main() {
-    // Load .env file
-    err := godotenv.Load()
+
+	err := godotenv.Load()
     if err != nil {
         panic("Error loading .env file")
     }
 
-    // Get file paths from environment variables
     inputFile := os.Getenv("PCA_INPUT_FILE")
     outputFile := os.Getenv("PCA_OUTPUT_FILE")
 
@@ -40,4 +40,16 @@ func main() {
     }
 
     fmt.Printf("PCA completed successfully! Reduced data saved to %s\n", outputFile)
+
+    // Step 5: Serve static files
+    // Serve the "web" directory (HTML, CSS, JS files)
+    http.Handle("/", http.FileServer(http.Dir("./web")))
+
+    // Serve the "data" directory (to access reduced_data.csv)
+    http.Handle("/data/", http.StripPrefix("/data/", http.FileServer(http.Dir("./data"))))
+
+    fmt.Println("Server is running at http://localhost:8080")
+    if err := http.ListenAndServe(":8080", nil); err != nil {
+        fmt.Println("Error starting server:", err)
+    }
 }

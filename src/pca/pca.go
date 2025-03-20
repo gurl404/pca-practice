@@ -28,16 +28,16 @@ func Standardize(data *mat.Dense) *mat.Dense {
 
 // ComputeCovarianceMatrix calculates the covariance matrix of the dataset
 func ComputeCovarianceMatrix(data *mat.Dense) *mat.SymDense {
-    rows, cols := data.Dims() // Get the number of rows and columns (samples x features)
+    rows, cols := data.Dims() 
 
     // Center the data by subtracting the mean of each column
     centered := mat.NewDense(rows, cols, nil)
     centered.CloneFrom(data)
     for j := 0; j < cols; j++ {
-        col := mat.Col(nil, j, data) // Extract the column
-        mean := stat.Mean(col, nil) // Calculate the mean
+        col := mat.Col(nil, j, data) 
+        mean := stat.Mean(col, nil) 
         for i := 0; i < rows; i++ {
-            centered.Set(i, j, centered.At(i, j)-mean) // Subtract mean from each value
+            centered.Set(i, j, centered.At(i, j)-mean) 
         }
     }
 
@@ -47,8 +47,8 @@ func ComputeCovarianceMatrix(data *mat.Dense) *mat.SymDense {
 
     // Compute the covariance matrix
     cov := mat.NewSymDense(cols, nil)
-    cov.SymOuterK(1.0/float64(rows-1), transposed) // Pass transposed data
-
+    // Pass transposed data
+    cov.SymOuterK(1.0/float64(rows-1), transposed) 
     return cov
 }
 
